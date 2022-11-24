@@ -7,7 +7,7 @@ import os
  
 
 # Menu options
-menu = ["Upload new file", "Read file", "List all files" ]
+menu = ["Upload new file", "Download file", "List all files" ]
 menuLength = len(menu)
 
 
