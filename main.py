@@ -7,7 +7,7 @@ import os
  
 
 # Menu options
-menu = ["Upload new file", "Download file", "List all files" ]
+menu = ["Upload new file", "Read file", "List all files" ]
 menuLength = len(menu)
 
 
@@ -31,20 +31,30 @@ def googleDriveChooser():
                 gfile.SetContentFile(filePath)
                 gfile.Upload()
                 print("\n********************\n" + fileName + " successfully uploaded to Google Drive!\n********************\n\n")
+
             case "2":
-                print("download")
-                printUploadMenu()
+                matched = False
+                file_list = drive.ListFile().GetList()
+                fileName = input('Please type file name: ')
+                for file in file_list:
+                    if fileName == file['title']:
+                        file.GetContentFile(file['title'])
+                        print("\n********************\n"+file['title']+"successfully downloaded from Google Drive!\n********************\n\n")
+                        matched = True
+                if not matched:
+                    print("\n********************\nWrong file name\n********************\n\n")
             case "3":
                 file_list = drive.ListFile().GetList()
                 print("\n********************\n")
                 for file in file_list:
-                    print("Name: %s" % (file['title']))
+                    print("File Name: %s - File ID: %s" % (file['title'], file['id']))
                 print("\n********************\n\n")
+
             case _:
                 if(val != str(menuLength+1)):
-                    print("\n********************\n Wrong option. Please try again!\n********************\n\n")
+                    print("\n********************\nWrong option. Please try again!\n********************\n\n")
                 else:
-                    print("\n********************\n Bye bye :)\n********************\n\n")
+                    print("\n********************\nBye bye :)\n********************\n\n")
                     quit()
 
 # Hello messages
